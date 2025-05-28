@@ -1,103 +1,159 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+import React, { useState } from 'react';
+import CytoscapeComponent from 'react-cytoscapejs';
+import { ElementDefinition } from 'cytoscape';
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
-}
+const states = ['q0', 'q1', 'q2', 'q3', 'q4', 'q5'];
+const minLength = 6;
+const maxLength = 12;
+
+const generateElements = (validStates: string[]): ElementDefinition[] => {
+	const nodes: ElementDefinition[] = states.map((id, index) => ({
+		data: { id, label: id },
+		position: { x: index * 120 + 50, y: 100 },
+		classes: validStates.includes(id) ? (id === 'q4' ? 'safe' : id === 'q5' ? 'very-safe' : 'valid') : '',
+	}));
+
+	const transitions: ElementDefinition[] = [
+		{ data: { source: 'q0', target: 'q1', label: 'length ✓', id: 'e0-1' } },
+		{ data: { source: 'q1', target: 'q2', label: 'lowercase ✓', id: 'e1-2' } },
+		{ data: { source: 'q2', target: 'q3', label: 'number ✓', id: 'e2-3' } },
+		{ data: { source: 'q3', target: 'q4', label: 'uppercase ✓', id: 'e3-4' } },
+		{ data: { source: 'q4', target: 'q5', label: 'symbol ✓', id: 'e4-5' } },
+	].map((edge) => ({
+		data: edge.data,
+		classes: validStates.includes(edge.data.source) && validStates.includes(edge.data.target) ? 'active' : '',
+	}));
+
+	return [...nodes, ...transitions];
+};
+
+const checkUpper = (pwd: string) => /[A-Z]/.test(pwd);
+const checkLower = (pwd: string) => /[a-z]/.test(pwd);
+const checkNumber = (pwd: string) => /\d/.test(pwd);
+const checkSymbol = (pwd: string) => /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(pwd);
+
+const checkPasswordState = (pwd: string): string[] => {
+	const validStates = ['q0'];
+	const q1Condition = pwd.length >= minLength && pwd.length <= maxLength;
+	const q2Condition = checkLower(pwd);
+	const q3Condition = checkNumber(pwd);
+	const q4Condition = checkUpper(pwd);
+	const q5Condition = checkSymbol(pwd);
+
+	if (q1Condition) validStates.push('q1');
+	if (q1Condition && q2Condition) validStates.push('q2');
+	if (q1Condition && q2Condition && q3Condition) validStates.push('q3');
+	if (q1Condition && q2Condition && q3Condition && q4Condition) validStates.push('q4');
+	if (q1Condition && q2Condition && q3Condition && q4Condition && q5Condition) validStates.push('q5');
+	return validStates;
+};
+
+const checkPasswordStrength = (pwd: string) => {
+	const hasUpper = checkUpper(pwd);
+	const hasLower = checkLower(pwd);
+	const hasNumber = checkNumber(pwd);
+	const hasSymbol = checkSymbol(pwd);
+	return { hasUpper, hasLower, hasNumber, hasSymbol };
+};
+
+const PasswordDFA: React.FC = () => {
+	const [input, setInput] = useState('');
+	const validStates = checkPasswordState(input);
+	const status = validStates.includes('q5')
+		? { label: 'Password Sangat Aman', color: 'text-green-800' }
+		: validStates.includes('q4')
+		? { label: 'Password Aman', color: 'text-green-500' }
+		: { label: 'Password Tidak Aman', color: 'text-red-600' };
+	const trimmedInput = input.slice(0, maxLength);
+	const lengthValid = trimmedInput.length >= minLength && trimmedInput.length <= maxLength;
+	const strength = checkPasswordStrength(trimmedInput);
+	const allCriteriaMet = lengthValid && strength.hasUpper && strength.hasLower && strength.hasNumber && strength.hasSymbol;
+
+	return (
+		<>
+			<div className="text-center my-10">
+				<h2 className="text-2xl font-semibold mb-4">Validasi Keamanan Password DFA</h2>
+				<input className="border border-gray-300 rounded px-2 py-1" type="text" value={input} onChange={(e) => setInput(e.target.value)} maxLength={12} placeholder="Ketik password..." />
+				<p className="mt-2 text-gray-600">Panjang: {trimmedInput.length} karakter</p>
+				<ul className="text-left text-sm mt-4 mx-auto w-fit">
+					<li className={strength.hasUpper ? 'text-green-600' : 'text-red-600'}>{strength.hasUpper ? '✓' : '✗'} Mengandung huruf besar</li>
+					<li className={strength.hasLower ? 'text-green-600' : 'text-red-600'}>{strength.hasLower ? '✓' : '✗'} Mengandung huruf kecil</li>
+					<li className={strength.hasNumber ? 'text-green-600' : 'text-red-600'}>{strength.hasNumber ? '✓' : '✗'} Mengandung angka</li>
+					<li className={strength.hasSymbol ? 'text-green-600' : 'text-red-600'}>{strength.hasSymbol ? '✓' : '✗'} Mengandung simbol</li>
+					<li className={lengthValid ? 'text-green-600' : 'text-red-600'}>{lengthValid ? '✓' : '✗'} Panjang 6–12 karakter</li>
+				</ul>
+				<p className="mt-3 text-lg font-bold">
+					Status: <span className={status.color}>{status.label}</span>
+				</p>
+			</div>
+
+			<CytoscapeComponent
+				elements={generateElements(validStates)}
+				style={{ width: '100%', height: '300px', border: '1px solid #ccc' }}
+				layout={{ name: 'preset' }}
+				stylesheet={[
+					{
+						selector: 'node',
+						style: {
+							content: 'data(label)',
+							'text-valign': 'center',
+							'text-halign': 'center',
+							'background-color': '#0074D9',
+							color: '#fff',
+							shape: 'ellipse',
+							width: 50,
+							height: 50,
+						},
+					},
+					{
+						selector: '.valid',
+						style: {
+							'background-color': '#7FDBFF',
+							'border-width': 2,
+							'border-color': '#000',
+						},
+					},
+					{
+						selector: '.safe',
+						style: {
+							'background-color': '#2ECC40',
+							'border-width': 3,
+							'border-color': '#000',
+						},
+					},
+					{
+						selector: '.very-safe',
+						style: {
+							'background-color': '#006400',
+							'border-width': 3,
+							'border-color': '#000',
+						},
+					},
+					{
+						selector: 'edge',
+						style: {
+							label: 'data(label)',
+							width: 2,
+							'line-color': '#ccc',
+							'target-arrow-color': '#ccc',
+							'target-arrow-shape': 'triangle',
+							'curve-style': 'bezier',
+						},
+					},
+					{
+						selector: '.active',
+						style: {
+							'line-color': '#FF4136',
+							'target-arrow-color': '#FF4136',
+							width: 3,
+						},
+					},
+				]}
+			/>
+		</>
+	);
+};
+
+export default PasswordDFA;
