@@ -6,7 +6,7 @@ import { ElementDefinition } from 'cytoscape';
 
 const states = ['q0', 'q1', 'q2', 'q3', 'q4', 'q5'];
 const minLength = 6;
-const maxLength = 12;
+const maxLength = 50;
 
 const generateElements = (validStates: string[]): ElementDefinition[] => {
 	const nodes: ElementDefinition[] = states.map((id, index) => ({
@@ -69,6 +69,8 @@ const PasswordDFA: React.FC = () => {
 	const trimmedInput = input.slice(0, maxLength);
 	const lengthValid = trimmedInput.length >= minLength && trimmedInput.length <= maxLength;
 	const strength = checkPasswordStrength(trimmedInput);
+	const successTextColor = 'text-green-600';
+	const errorTextColor = 'text-red-600';
 
 	return (
 		<>
@@ -77,11 +79,11 @@ const PasswordDFA: React.FC = () => {
 				<input className="border border-gray-300 rounded px-2 py-1" type="text" value={input} onChange={(e) => setInput(e.target.value)} maxLength={12} placeholder="Ketik password..." />
 				<p className="mt-2 text-gray-600">Panjang: {trimmedInput.length} karakter</p>
 				<ul className="text-left text-sm mt-4 mx-auto w-fit">
-					<li className={strength.hasUpper ? 'text-green-600' : 'text-red-600'}>{strength.hasUpper ? '✓' : '✗'} Mengandung huruf besar</li>
-					<li className={strength.hasLower ? 'text-green-600' : 'text-red-600'}>{strength.hasLower ? '✓' : '✗'} Mengandung huruf kecil</li>
-					<li className={strength.hasNumber ? 'text-green-600' : 'text-red-600'}>{strength.hasNumber ? '✓' : '✗'} Mengandung angka</li>
-					<li className={strength.hasSymbol ? 'text-green-600' : 'text-red-600'}>{strength.hasSymbol ? '✓' : '✗'} Mengandung simbol</li>
-					<li className={lengthValid ? 'text-green-600' : 'text-red-600'}>{lengthValid ? '✓' : '✗'} Panjang 6–12 karakter</li>
+					<li className={strength.hasUpper ? successTextColor : errorTextColor}>{strength.hasUpper ? '✓' : '✗'} Mengandung huruf besar</li>
+					<li className={strength.hasLower ? successTextColor : errorTextColor}>{strength.hasLower ? '✓' : '✗'} Mengandung huruf kecil</li>
+					<li className={strength.hasNumber ? successTextColor : errorTextColor}>{strength.hasNumber ? '✓' : '✗'} Mengandung angka</li>
+					<li className={strength.hasSymbol ? successTextColor : errorTextColor}>{strength.hasSymbol ? '✓' : '✗'} Mengandung simbol</li>
+					<li className={lengthValid ? successTextColor : errorTextColor}>{lengthValid ? '✓' : '✗'} Panjang 6–12 karakter</li>
 				</ul>
 				<p className="mt-3 text-lg font-bold">
 					Status: <span className={status.color}>{status.label}</span>
