@@ -76,7 +76,7 @@ const PasswordDFA: React.FC = () => {
 		<>
 			<div className="text-center my-10">
 				<h2 className="text-2xl font-semibold mb-4">Validasi Keamanan Password DFA</h2>
-				<input className="border border-gray-300 rounded px-2 py-1" type="text" value={input} onChange={(e) => setInput(e.target.value)} maxLength={12} placeholder="Ketik password..." />
+				<input className="border border-gray-300 rounded px-2 py-1" type="text" value={input} onChange={(e) => setInput(e.target.value)} maxLength={maxLength} placeholder="Ketik password..." />
 				<p className="mt-2 text-gray-600">Panjang: {trimmedInput.length} karakter</p>
 				<ul className="text-left text-sm mt-4 mx-auto w-fit">
 					<li className={strength.hasUpper ? successTextColor : errorTextColor}>{strength.hasUpper ? '✓' : '✗'} Mengandung huruf besar</li>
