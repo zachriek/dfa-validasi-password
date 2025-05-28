@@ -69,7 +69,6 @@ const PasswordDFA: React.FC = () => {
 	const trimmedInput = input.slice(0, maxLength);
 	const lengthValid = trimmedInput.length >= minLength && trimmedInput.length <= maxLength;
 	const strength = checkPasswordStrength(trimmedInput);
-	const allCriteriaMet = lengthValid && strength.hasUpper && strength.hasLower && strength.hasNumber && strength.hasSymbol;
 
 	return (
 		<>
