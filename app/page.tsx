@@ -83,7 +83,7 @@ const PasswordDFA: React.FC = () => {
 					<li className={strength.hasLower ? successTextColor : errorTextColor}>{strength.hasLower ? '✓' : '✗'} Mengandung huruf kecil</li>
 					<li className={strength.hasNumber ? successTextColor : errorTextColor}>{strength.hasNumber ? '✓' : '✗'} Mengandung angka</li>
 					<li className={strength.hasSymbol ? successTextColor : errorTextColor}>{strength.hasSymbol ? '✓' : '✗'} Mengandung simbol</li>
-					<li className={lengthValid ? successTextColor : errorTextColor}>{lengthValid ? '✓' : '✗'} Panjang 6–12 karakter</li>
+					<li className={lengthValid ? successTextColor : errorTextColor}>{lengthValid ? '✓' : '✗'} Panjang minimal 6 karakter</li>
 				</ul>
 				<p className="mt-3 text-lg font-bold">
 					Status: <span className={status.color}>{status.label}</span>
