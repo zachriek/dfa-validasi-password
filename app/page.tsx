@@ -16,21 +16,21 @@ const generateElements = (validStates: string[]): ElementDefinition[] => {
 	}));
 
 	const transitions: ElementDefinition[] = [
-		{ data: { source: 'q0', target: 'q1', label: 'input ≥ 6', id: 'e0-1' } },
-		{ data: { source: 'q0', target: 'q0', label: 'input < 6', id: 'e0-0' } },
-		{ data: { source: 'q1', target: 'q2', label: 'lowercase ≥ 1', id: 'e1-2' } },
-		{ data: { source: 'q1', target: 'q0', label: 'input < 6', id: 'e1-0' } },
-		{ data: { source: 'q2', target: 'q3', label: 'number ≥ 1', id: 'e2-3' } },
-		{ data: { source: 'q2', target: 'q1', label: 'lowercase = 0', id: 'e2-1' } },
-		{ data: { source: 'q3', target: 'q4', label: 'uppercase ≥ 1', id: 'e3-4' } },
-		{ data: { source: 'q3', target: 'q2', label: 'number = 0', id: 'e3-2' } },
-		{ data: { source: 'q4', target: 'q5', label: 'symbol ≥ 1', id: 'e4-5' } },
-		{ data: { source: 'q4', target: 'q3', label: 'uppercase = 0', id: 'e4-3' } },
-		{ data: { source: 'q5', target: 'q5', label: 'symbol ≥ 1', id: 'e5-5' } },
-		{ data: { source: 'q5', target: 'q4', label: 'symbol = 0', id: 'e5-4' } },
+		{ data: { source: 'q0', target: 'q1', label: 'input ≥ 6', id: 'e0-1', type: 'valid-state' } },
+		{ data: { source: 'q0', target: 'q0', label: 'input < 6', id: 'e0-0', type: 'invalid-state' } },
+		{ data: { source: 'q1', target: 'q2', label: 'lowercase ≥ 1', id: 'e1-2', type: 'valid-state' } },
+		{ data: { source: 'q1', target: 'q0', label: 'input < 6', id: 'e1-0', type: 'invalid-state' } },
+		{ data: { source: 'q2', target: 'q3', label: 'number ≥ 1', id: 'e2-3', type: 'valid-state' } },
+		{ data: { source: 'q2', target: 'q1', label: 'lowercase = 0', id: 'e2-1', type: 'invalid-state' } },
+		{ data: { source: 'q3', target: 'q4', label: 'uppercase ≥ 1', id: 'e3-4', type: 'valid-state' } },
+		{ data: { source: 'q3', target: 'q2', label: 'number = 0', id: 'e3-2', type: 'invalid-state' } },
+		{ data: { source: 'q4', target: 'q5', label: 'symbol ≥ 1', id: 'e4-5', type: 'valid-state' } },
+		{ data: { source: 'q4', target: 'q3', label: 'uppercase = 0', id: 'e4-3', type: 'invalid-state' } },
+		{ data: { source: 'q5', target: 'q5', label: 'symbol ≥ 1', id: 'e5-5', type: 'valid-state' } },
+		{ data: { source: 'q5', target: 'q4', label: 'symbol = 0', id: 'e5-4', type: 'invalid-state' } },
 	].map((edge) => ({
 		data: edge.data,
-		classes: validStates.includes(edge.data.source) && validStates.includes(edge.data.target) ? 'active' : '',
+		classes: edge.data.type === 'valid-state' && validStates.includes(edge.data.source) && validStates.includes(edge.data.target) ? 'active' : '',
 	}));
 
 	return [...nodes, ...transitions];
