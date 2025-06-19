@@ -16,11 +16,18 @@ const generateElements = (validStates: string[]): ElementDefinition[] => {
 	}));
 
 	const transitions: ElementDefinition[] = [
-		{ data: { source: 'q0', target: 'q1', label: 'length ✓', id: 'e0-1' } },
-		{ data: { source: 'q1', target: 'q2', label: 'lowercase ✓', id: 'e1-2' } },
-		{ data: { source: 'q2', target: 'q3', label: 'number ✓', id: 'e2-3' } },
-		{ data: { source: 'q3', target: 'q4', label: 'uppercase ✓', id: 'e3-4' } },
-		{ data: { source: 'q4', target: 'q5', label: 'symbol ✓', id: 'e4-5' } },
+		{ data: { source: 'q0', target: 'q1', label: 'input ≥ 6', id: 'e0-1' } },
+		{ data: { source: 'q0', target: 'q0', label: 'input < 6', id: 'e0-0' } },
+		{ data: { source: 'q1', target: 'q2', label: 'lowercase ≥ 1', id: 'e1-2' } },
+		{ data: { source: 'q1', target: 'q0', label: 'input < 6', id: 'e1-0' } },
+		{ data: { source: 'q2', target: 'q3', label: 'number ≥ 1', id: 'e2-3' } },
+		{ data: { source: 'q2', target: 'q1', label: 'lowercase = 0', id: 'e2-1' } },
+		{ data: { source: 'q3', target: 'q4', label: 'uppercase ≥ 1', id: 'e3-4' } },
+		{ data: { source: 'q3', target: 'q2', label: 'number = 0', id: 'e3-2' } },
+		{ data: { source: 'q4', target: 'q5', label: 'symbol ≥ 1', id: 'e4-5' } },
+		{ data: { source: 'q4', target: 'q3', label: 'uppercase = 0', id: 'e4-3' } },
+		{ data: { source: 'q5', target: 'q5', label: 'symbol ≥ 1', id: 'e5-5' } },
+		{ data: { source: 'q5', target: 'q4', label: 'symbol = 0', id: 'e5-4' } },
 	].map((edge) => ({
 		data: edge.data,
 		classes: validStates.includes(edge.data.source) && validStates.includes(edge.data.target) ? 'active' : '',
@@ -146,8 +153,8 @@ const PasswordDFA: React.FC = () => {
 					{
 						selector: '.active',
 						style: {
-							'line-color': '#FF4136',
-							'target-arrow-color': '#FF4136',
+							'line-color': '#36FF47',
+							'target-arrow-color': '#36FF47',
 							width: 3,
 						},
 					},
