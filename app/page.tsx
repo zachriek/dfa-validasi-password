@@ -12,7 +12,7 @@ const generateElements = (validStates: string[]): ElementDefinition[] => {
 	const nodes: ElementDefinition[] = states.map((id, index) => ({
 		data: { id, label: id },
 		position: { x: index * 120 + 50, y: 100 },
-		classes: validStates.includes(id) ? (id === 'q4' ? 'safe' : id === 'q5' ? 'very-safe' : 'valid') : '',
+		classes: validStates.includes(id) ? (id === 'q4' ? 'safe' : id === 'q5' ? 'very-safe' : 'valid') : ['q4', 'q5'].includes(id) ? 'final-state' : '',
 	}));
 
 	const transitions: ElementDefinition[] = [
@@ -120,10 +120,17 @@ const PasswordDFA: React.FC = () => {
 						},
 					},
 					{
+						selector: '.final-state',
+						style: {
+							'background-color': '#0074D9',
+							'border-width': 2,
+							'border-color': '#000',
+						},
+					},
+					{
 						selector: '.valid',
 						style: {
-							'background-color': '#7FDBFF',
-							'border-width': 2,
+							'background-color': '#00B7FF',
 							'border-color': '#000',
 						},
 					},
