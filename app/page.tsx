@@ -149,7 +149,7 @@ const PasswordDFA: React.FC = () => {
 		<>
 			<CytoscapeComponent
 				elements={generateElements(validStates)}
-				style={{ width: '100%', height: '1000px', border: '1px solid #ccc' }}
+				style={{ width: '100%', height: '500px', border: '1px solid #ccc' }}
 				layout={{ name: 'preset' }}
 				stylesheet={[
 					{
