@@ -5,7 +5,7 @@ import { Eye, EyeOff, Shield, Lock, AlertCircle, CheckCircle, Clock } from 'luci
 import CytoscapeComponent from 'react-cytoscapejs';
 import { ElementDefinition } from 'cytoscape';
 
-const states = ['q0', 'q1', 'q2', 'q3', 'q4', 'q5'];
+const states = ['q', 'q0', 'q1', 'q2', 'q3', 'q4', 'q5'];
 const minLength = 6;
 const maxLength = 50;
 
@@ -13,10 +13,11 @@ const generateElements = (validStates: string[]): ElementDefinition[] => {
 	const nodes: ElementDefinition[] = states.map((id, index) => ({
 		data: { id, label: id },
 		position: { x: index * 120 + 50, y: 100 },
-		classes: validStates.includes(id) ? (id === 'q4' ? 'safe' : id === 'q5' ? 'very-safe' : 'valid') : ['q4', 'q5'].includes(id) ? 'final-state' : '',
+		classes: validStates.includes(id) ? (id === 'q4' ? 'safe' : id === 'q5' ? 'very-safe' : 'valid') : ['q4', 'q5'].includes(id) ? 'final-state' : id === 'q' ? 'initial' : '',
 	}));
 
 	const transitions: ElementDefinition[] = [
+		{ data: { source: 'q', target: 'q0', label: '', id: 'eq-0', type: 'invalid-state' } },
 		// q0
 		{ data: { source: 'q0', target: 'q1', label: 'b', id: 'e0-1', type: 'valid-state' } },
 		{ data: { source: 'q0', target: 'q0', label: 'a, c, d, e, f, g, h, i, j', id: 'e0-0', type: 'invalid-state' } },
@@ -314,6 +315,12 @@ const PasswordDFA: React.FC = () => {
 							'background-color': '#0074D9',
 							'border-width': 2,
 							'border-color': '#000',
+						},
+					},
+					{
+						selector: '.initial',
+						style: {
+							'background-color': '#fff',
 						},
 					},
 					{
