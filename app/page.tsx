@@ -147,6 +147,83 @@ const PasswordDFA: React.FC = () => {
 
 	return (
 		<>
+			<CytoscapeComponent
+				elements={generateElements(validStates)}
+				style={{ width: '100%', height: '1000px', border: '1px solid #ccc' }}
+				layout={{ name: 'preset' }}
+				stylesheet={[
+					{
+						selector: 'node',
+						style: {
+							content: 'data(label)',
+							'text-valign': 'center',
+							'text-halign': 'center',
+							'background-color': '#0074D9',
+							color: '#fff',
+							shape: 'ellipse',
+							width: 50,
+							height: 50,
+						},
+					},
+					{
+						selector: '.final-state',
+						style: {
+							'background-color': '#0074D9',
+							'border-width': 2,
+							'border-color': '#000',
+						},
+					},
+					{
+						selector: '.initial',
+						style: {
+							'background-color': '#fff',
+						},
+					},
+					{
+						selector: '.valid',
+						style: {
+							'background-color': '#00B7FF',
+							'border-color': '#000',
+						},
+					},
+					{
+						selector: '.safe',
+						style: {
+							'background-color': '#2ECC40',
+							'border-width': 3,
+							'border-color': '#000',
+						},
+					},
+					{
+						selector: '.very-safe',
+						style: {
+							'background-color': '#006400',
+							'border-width': 3,
+							'border-color': '#000',
+						},
+					},
+					{
+						selector: 'edge',
+						style: {
+							label: 'data(label)',
+							width: 2,
+							'line-color': '#ccc',
+							'target-arrow-color': '#ccc',
+							'target-arrow-shape': 'triangle',
+							'curve-style': 'bezier',
+						},
+					},
+					{
+						selector: '.active',
+						style: {
+							'line-color': '#36FF47',
+							'target-arrow-color': '#36FF47',
+							width: 3,
+						},
+					},
+				]}
+			/>
+
 			<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
 				<div className="max-w-4xl mx-auto">
 					<div className="bg-white rounded-2xl shadow-xl p-8">
@@ -290,83 +367,6 @@ const PasswordDFA: React.FC = () => {
 					</div>
 				</div>
 			</div>
-
-			<CytoscapeComponent
-				elements={generateElements(validStates)}
-				style={{ width: '100%', height: '1000px', border: '1px solid #ccc' }}
-				layout={{ name: 'preset' }}
-				stylesheet={[
-					{
-						selector: 'node',
-						style: {
-							content: 'data(label)',
-							'text-valign': 'center',
-							'text-halign': 'center',
-							'background-color': '#0074D9',
-							color: '#fff',
-							shape: 'ellipse',
-							width: 50,
-							height: 50,
-						},
-					},
-					{
-						selector: '.final-state',
-						style: {
-							'background-color': '#0074D9',
-							'border-width': 2,
-							'border-color': '#000',
-						},
-					},
-					{
-						selector: '.initial',
-						style: {
-							'background-color': '#fff',
-						},
-					},
-					{
-						selector: '.valid',
-						style: {
-							'background-color': '#00B7FF',
-							'border-color': '#000',
-						},
-					},
-					{
-						selector: '.safe',
-						style: {
-							'background-color': '#2ECC40',
-							'border-width': 3,
-							'border-color': '#000',
-						},
-					},
-					{
-						selector: '.very-safe',
-						style: {
-							'background-color': '#006400',
-							'border-width': 3,
-							'border-color': '#000',
-						},
-					},
-					{
-						selector: 'edge',
-						style: {
-							label: 'data(label)',
-							width: 2,
-							'line-color': '#ccc',
-							'target-arrow-color': '#ccc',
-							'target-arrow-shape': 'triangle',
-							'curve-style': 'bezier',
-						},
-					},
-					{
-						selector: '.active',
-						style: {
-							'line-color': '#36FF47',
-							'target-arrow-color': '#36FF47',
-							width: 3,
-						},
-					},
-				]}
-			/>
 		</>
 	);
 };
