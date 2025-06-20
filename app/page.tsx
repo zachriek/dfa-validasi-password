@@ -19,7 +19,7 @@ const generateElements = (validStates: string[]): ElementDefinition[] => {
 	const transitions: ElementDefinition[] = [
 		// q0
 		{ data: { source: 'q0', target: 'q1', label: 'b', id: 'e0-1', type: 'valid-state' } },
-		{ data: { source: 'q0', target: 'q0', label: 'a', id: 'e0-0', type: 'invalid-state' } },
+		{ data: { source: 'q0', target: 'q0', label: 'a, c, d, e, f, g, h, i, j', id: 'e0-0', type: 'invalid-state' } },
 
 		// q1
 		{ data: { source: 'q1', target: 'q2', label: 'c', id: 'e1-2', type: 'valid-state' } },
